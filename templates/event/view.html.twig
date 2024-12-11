@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Évènement{% endblock %}
+
+{% block body %}
+
+
+
+<div class="container mt-5">
+{% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <div class="row">
+        <!-- Partie gauche -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Détails de l'évènement</h5>
+                    <p class="card-text"><strong>Propriétaire :</strong> {{ event.owner.name }}</p>
+                    <p class="card-text"><strong>Date :</strong> {{ event.owner.date|date('d-m-Y') }}</p>
+                    <p class="card-text"><strong>Lieu :</strong> {{ event.owner.location }}</p>
+                    <p class="card-text"><strong>Nombre de participants :</strong> {{ event.owner.participants|length }}</p>
+                    <a href="{{ path('app_events') }}" class="btn btn-primary">Retour</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Partie droite -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Participants</h5>
+                    {% if event.owner.participants|length > 0 %}
+                        <ul class="list-group list-group-flush">
+                            {% for participant in event.owner.participants %}
+                                <li class="list-group-item">
+                                    <strong>Nom :</strong> {{ participant.name }}<br>
+                                    <strong>Email :</strong> {{ participant.email }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    <div class='mx-auto text-center pt-4'>
+                        <a href="{{ path('app_participant_add_to_event', {'eventId': event.owner.id }) }}" class="btn btn-primary">Ajouter un participant</a>
+                    </div>
+                    {% else %}
+                        <p class="text-muted">Aucun participant</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
