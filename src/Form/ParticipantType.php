@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,8 +15,17 @@ class ParticipantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('email');
+            ->add('name', null, 
+            [ 
+                'label' => 'Nom',
+                'required' => true
+                ])
+
+            ->add('email', EmailType::class,
+            [
+                'label' => 'Email',
+                'required' => true
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

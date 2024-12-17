@@ -21,11 +21,28 @@
             <div class="card shadow-sm h-100">
                 <div class="card-body">
                     <h5 class="card-title">Détails de l'évènement</h5>
-                    <p class="card-text"><strong>Propriétaire :</strong> {{ event.owner.name }}</p>
-                    <p class="card-text"><strong>Date :</strong> {{ event.owner.date|date('d-m-Y') }}</p>
-                    <p class="card-text"><strong>Lieu :</strong> {{ event.owner.location }}</p>
-                    <p class="card-text"><strong>Nombre de participants :</strong> {{ event.owner.participants|length }}</p>
+                    <p class="card-text"><strong>Propriétaire :</strong> {{ event.name }}</p>
+                    <p class="card-text"><strong>Date :</strong> {{ event.date|date('d-m-Y') }}</p>
+                    <p class="card-text"><strong>Lieu :</strong> {{ event.location }}</p>
+                    <p class="card-text"><strong>Nombre de participants :</strong> {{ event.participants|length }}</p>
                     <a href="{{ path('app_events') }}" class="btn btn-primary">Retour</a>
+                    <h5 class="card-title mt-5">Calculer la distance</h5>
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_label(form.latitude) }}
+                            {{ form_widget(form.latitude, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.longitude) }}
+                            {{ form_widget(form.longitude, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Calculer</button>
+                    {{ form_end(form) }}
+
+                    {# {% if distance is not null %}
+                        <h5 class="mt-4">Résultat</h5>
+                        <p>La distance entre votre position et l'événement est : <strong>{{ distance }} km</strong>.</p>
+                    {% endif %} #}
                 </div>
             </div>
         </div>
@@ -35,21 +52,21 @@
             <div class="card shadow-sm h-100">
                 <div class="card-body">
                     <h5 class="card-title">Participants</h5>
-                    {% if event.owner.participants|length > 0 %}
+                    {% if event.participants|length > 0 %}
                         <ul class="list-group list-group-flush">
-                            {% for participant in event.owner.participants %}
+                            {% for participant in event.participants %}
                                 <li class="list-group-item">
                                     <strong>Nom :</strong> {{ participant.name }}<br>
                                     <strong>Email :</strong> {{ participant.email }}
                                 </li>
                             {% endfor %}
                         </ul>
-                    <div class='mx-auto text-center pt-4'>
-                        <a href="{{ path('app_participant_add_to_event', {'eventId': event.owner.id }) }}" class="btn btn-primary">Ajouter un participant</a>
-                    </div>
                     {% else %}
                         <p class="text-muted">Aucun participant</p>
                     {% endif %}
+                    <div class='mx-auto text-center pt-4'>
+                        <a href="{{ path('app_participant_add_to_event', {'eventId': event.id }) }}" class="btn btn-primary">Ajouter un participant</a>
+                    </div>
                 </div>
             </div>
         </div>

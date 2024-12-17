@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Distance{% endblock %}
+
+
+{% block body %}
+
+ <div class="container mt-5">
+    <div class="col-xl-8 mx-auto text-center">
+        <h1 class="mb-4 text-dark">La distance pour vous rendre à l'évènement est de : {{ distance|number_format(2) }} kilomètres </h1>
+        <a href="{{ path('app_events') }}" class="btn btn-primary">Retour</a>
+    </div>
+</div>
+
+
+{% endblock %}
